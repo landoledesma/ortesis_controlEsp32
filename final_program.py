@@ -13,13 +13,12 @@ i2c = SoftI2C(scl=Pin(22), sda=Pin(21), freq=400000)
 oled = SH1106_I2C(128, 64, i2c, None, addr=0x3C)
 oled.sleep(False)
 
-#oled
+
 oled.fill(0) 
 oled.text('**REX**', 40, 0)
 oled.text('UPIITA', 40 ,10)
 oled.show()
 
-#leer IMU1
 af1 = imu.IMU(address=0x69)
 af1.InitImu()
 af1.CalibrateSensor()
@@ -28,7 +27,6 @@ oled.text('A1 Init',0, 35)
 oled.show()
 #print("Femur accelerometer succesfully initializated")
 
-#Leer IMU2
 #Tibia accelerometer
 at2 = imu.IMU()
 at2.InitImu()
@@ -38,11 +36,13 @@ oled.text("A2 Init", 0, 45)
 oled.show()
 
 # Motor pins: (L298N)
+#Motors pins ENA = 16,IN1 = 4, IN2 = 2
 frequency = 15000
-pin1 = Pin(4, Pin.OUT)     
-pin2 = Pin(5, Pin.OUT)     
-enable = PWM(Pin(2), frequency) # Enable pin
+pin1 = Pin(2, Pin.OUT)     
+pin2 = Pin(4, Pin.OUT)     
+enable = PWM(Pin(16), frequency) # Enable pin
 dc_motor = DCMotor(pin1, pin2, enable, min_duty=350, max_duty=1023)
+
 
 #Femur accelerometer:
 
@@ -88,7 +88,7 @@ while True:
             sleep_ms(100)
                
             theta = 180 + angle_femy - angle_tiby
-            #print(angle_femy,angle_tiby)
+            print(angle_femy,angle_tiby)
                 
             knee = 180 - theta
             knee = math.ceil(knee)
